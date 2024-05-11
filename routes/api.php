@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,27 +21,22 @@ Route::prefix('user')->group(function () {
     Route::post('/users/login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('/reviews', [ReviewController::class, 'index']);
-    Route::put('/reviews/{id}', [ReviewController::class, 'markReview']);
     Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
 });
 
-//
-//Route::middleware(['auth:sanctum'])->prefix('')->group(function () {
-//
-//
-//    Route::get('/notifications',[,'getNotifications']);
-//    Route::Put('/notifications/{id}/read',[,'markNotififcation']);
-//
-//
-//
-//});
+
+Route::middleware(['auth:sanctum','auth.api'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+});
+
 
 ///////all api 's related with admin
 
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('managing-library')->group(function () {
 
-    // Existing admin route for assigning roles
+
     Route::resource('/books', BookController::class);
     Route::resource('/authors', AuthorController::class);
     Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
@@ -49,7 +45,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('managing-library')->group(
 
 
 
-Route::group(['middleware' => ['auth.api']], function () {
+Route::middleware(['auth:sanctum','auth.api'])->group( function () {
 
     Route::get('/users/profile', [AuthController::class, 'show']);
     Route::put('/users/profile', [AuthController::class, 'update']);

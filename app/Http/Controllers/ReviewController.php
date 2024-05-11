@@ -39,15 +39,8 @@ class ReviewController extends Controller
         return response()->json($review);
     }
 
-    public function markReview(markRequest $request, $id)
-    {
 
-        $review = Review::findOrFail($id);
-        $review->Is_Marked = true;
-        $review->save();
-        return response()->json($review, 201);
 
-    }
 
     public function addReviewToBook(Request $request, $bookId)
     {
@@ -62,7 +55,7 @@ class ReviewController extends Controller
 
         $review = new Review([
             'comment' => $request->comment,
-
+            'user_id' => Auth::id(),
         ]);
 
 
@@ -85,7 +78,7 @@ class ReviewController extends Controller
 
         $review = new Review([
             'comment' => $request->comment,
-
+            'user_id' => Auth::id(),
         ]);
 
 

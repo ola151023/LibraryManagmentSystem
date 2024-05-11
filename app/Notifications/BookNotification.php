@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Book;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,15 @@ class BookNotification extends Notification
 {
     use Queueable;
 
+    protected $book;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(Book $book)
     {
-        //
+        $this->book = $book;
     }
-
     /**
      * Get the notification's delivery channels.
      *

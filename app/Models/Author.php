@@ -8,7 +8,7 @@ use App\Traits\LogChangesTrait;
 class Author extends Model
 {
     use HasFactory;
-    protected $fillable=[];
+    protected $fillable=['name','biography'];
     public function books()
     {
         return $this->belongsToMany(Book::class);

@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckUserAuthorization
@@ -18,14 +20,15 @@ class CheckUserAuthorization
     {
 
         // Check if the user is authenticated
-        if (!Auth::check()) {
-            // If not authenticated, return an unauthorized response
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (Auth::guard('sanctum')->check()) {
+
+
+            // Proceed with the request
+            return $next($request);
         }
 
 
-        // Proceed with the request
-        return $next($request);
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
 }

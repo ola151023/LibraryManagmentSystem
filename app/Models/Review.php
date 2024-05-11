@@ -8,7 +8,7 @@ use App\Traits\LogChangesTrait;
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = [];
+    protected $fillable = ['comment','user_id','IsMarked','reviewable'];
     public function user(){
         return $this->belongsTo(User::class);
     }

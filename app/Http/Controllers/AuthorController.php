@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
@@ -17,19 +18,23 @@ class AuthorController extends Controller
      */
     public function index()
     {
+
         $cacheKey = 'authors';
 
         // Check if data is cached
         if (Cache::has($cacheKey)) {
+
             // If cached, return cached data
             return Cache::get($cacheKey);
         }
 
-        // If not cached, fetch data from database
         $authors=Author::all();
-        CustomHelpers::cacheData($cacheKey, $authors, 3600);
+        Log::info($authors);
+       CustomHelpers::cacheData($cacheKey, $authors->toArray(), 3600);
 
         return $authors;
+
+
     }
 
 
@@ -62,9 +67,9 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Author $author)
+    public function show( $authorId)
     {
-        $author=Author::findOrFail($author);
+        $author=Author::findOrFail($authorId);
         return $author;
     }
 

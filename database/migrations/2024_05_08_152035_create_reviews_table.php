@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('comment')->nullable();
             $table->morphs('reviewable'); // Polymorphic relationship
-            $table->boolean('IsMarked')->default(false);
+
             $table->unsignedBigInteger('user_id'); // Assuming reviews are associated with users
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

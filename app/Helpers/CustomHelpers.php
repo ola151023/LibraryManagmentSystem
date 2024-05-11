@@ -12,6 +12,7 @@ class CustomHelpers
 
     public static function cacheData($key, $data, $expiration = 60)
     {
+
         \Illuminate\Support\Facades\Cache::put($key, $data, $expiration);
     }
 

@@ -70,9 +70,10 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show( $bookId)
     {
-        $book=Author::findOrFail($book);
+
+        $book=Book::findOrFail($bookId);
         return $book;
     }
 
@@ -99,10 +100,10 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy( $bookId)
     {
 
-        $book=Book::findOrFail($book);
+        $book=Book::findOrFail($bookId);
         $book->delete();
         return response()->json(null,204);
 
